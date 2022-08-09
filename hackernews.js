@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Hackernews Modern
 // @namespace    sagiegurari
-// @version      1.0
+// @version      1.1
 // @author       Sagie Gur-Ari
 // @description  Improved mobile usability and modern styling for Hackernews
 // @homepage     https://github.com/sagiegurari/userscripts-hackernews
