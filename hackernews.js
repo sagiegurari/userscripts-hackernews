@@ -20,16 +20,19 @@
     const styleSheet = element.sheet;
 
     const cssRules = [
-        'html, body, #hnmain { background-color: #333; }',
+        // colors
         '#hnmain tr:first-child td { background-color: #333; }',
-        'a:link { color: #ddd; }',
+        'html, body, #hnmain, #hnmain table.itemList tr:first-child td { background-color: #222; }',
+        'a:link, .subtext a[href^="item"] { color: #eee; }',
+
+        // styles
         '.pagetop { font-size: 16pt; }',
         '.title { font-size: 14pt; }',
         '.comhead { font-size: 12pt; }',
         '.subtext { font-size: 0; padding: 5px 0; }',
         '.subtext span { padding: 0 2px; }',
         '.subtext span, .subtext a:not([href^="item"]), .subtext .age a[href^="item"] { font-size: 12pt; }',
-        '.subtext a[href^="item"] { color: #ddd; font-size: 14pt; text-decoration: underline; }',
+        '.subtext a[href^="item"] { font-size: 14pt; text-decoration: underline; }',
         '.subtext a[href^="hide"] { display: none; }',
     ];
 
