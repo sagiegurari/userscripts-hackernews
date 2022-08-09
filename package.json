@@ -1,0 +1,29 @@
+{
+  "name": "userscripts-hackernews",
+  "version": "1.0.0",
+  "description": "Improved mobile usability and modern styling",
+  "author": {
+    "name": "Sagie Gur-Ari",
+    "email": "sagiegurari@gmail.com"
+  },
+  "license": "MIT",
+  "private": true,
+  "homepage": "https://github.com/sagiegurari/userscripts-hackernews",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sagiegurari/userscripts-hackernews.git"
+  },
+  "bugs": {
+    "url": "http://github.com/sagiegurari/userscripts-hackernews/issues"
+  },
+  "main": "hackernews.js",
+  "scripts": {
+    "format": "js-beautify --config ./.jsbeautifyrc --file ./*.js",
+    "lint": "eslint ./*.js",
+    "test": "npm run format && npm run lint"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "js-beautify": "^1"
+  }
+}
