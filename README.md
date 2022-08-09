@@ -2,4 +2,4 @@
 
 Improved mobile usability and modern styling
 
-See [homepage](https://greasyfork.org/en/scripts/18491-ads-dom-remover)
+See [homepage](https://greasyfork.org/en/scripts/449198-hackernews-modern)
