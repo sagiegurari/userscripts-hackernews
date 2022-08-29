@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Hackernews Modern
 // @namespace    sagiegurari
-// @version      1.4
+// @version      1.5
 // @author       Sagie Gur-Ari
 // @description  Improved mobile usability and modern styling for Hackernews
 // @homepage     https://github.com/sagiegurari/userscripts-hackernews
@@ -26,8 +26,7 @@
         // colors
         '#hnmain tr:first-child td, .comment-tree { background-color: #333; }',
         'html, body, #hnmain, #hnmain table.itemList tr:first-child td { background-color: #222; }',
-        'a:link, .subtext a[href^="item"]:not(:visited) { color: #eee; }',
-        '.commtext, .comment-tree a[rel="nofollow"], .comment-tree .reply a { color: #eee; }',
+        'a:link, .subtext a[href^="item"]:not(:visited), a:link.togg.clicky, .commtext, .comment-tree a[rel="nofollow"], .comment-tree .reply a { color: #eee; }',
         '.visited a.titlelink { color: #888; }',
     ];
 
