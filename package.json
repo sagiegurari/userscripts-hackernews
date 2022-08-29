@@ -18,7 +18,7 @@
   },
   "main": "hackernews.js",
   "scripts": {
-    "format": "js-beautify --config ./.jsbeautifyrc --file ./*.js",
+    "format": "js-beautify --replace --config ./.jsbeautifyrc --file ./*.js",
     "lint": "eslint ./*.js",
     "test": "npm run format && npm run lint"
   },
