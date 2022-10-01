@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Hackernews Modern
 // @namespace    sagiegurari
-// @version      1.7
+// @version      1.8
 // @author       Sagie Gur-Ari
 // @description  Improved mobile usability and modern styling for Hackernews
 // @homepage     https://github.com/sagiegurari/userscripts-hackernews
@@ -60,7 +60,7 @@
         });
 
         // remove root/next/prev links
-        document.querySelectorAll('.navs').forEach(element => element.style.display = 'none');
+        document.querySelectorAll('.navs .clicky:not(.togg)').forEach(element => element.style.display = 'none');
     } else {
         const storage = window.localStorage;
         if (storage && typeof storage.getItem === 'function') {
