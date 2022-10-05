@@ -6,6 +6,7 @@ Features Include:
 * Increase font size for mobile view
 * Auto mark articles in viewport as visited on second load
 * Auto collapse all child comments (excluding top level comments)
+* Support for: ycombinator, hckrnews, and hackerweb.app
 
 Links:
 * [Homepage](https://greasyfork.org/en/scripts/449198-hackernews-modern)

@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Hackernews Modern
 // @namespace    sagiegurari
-// @version      1.8
+// @version      1.9
 // @author       Sagie Gur-Ari
 // @description  Improved mobile usability and modern styling for Hackernews
 // @homepage     https://github.com/sagiegurari/userscripts-hackernews
 // @supportURL   https://github.com/sagiegurari/userscripts-hackernews/issues
 // @match        https://news.ycombinator.com/*
+// @match        https://hckrnews.com/*
+// @match        https://hackerweb.app/*
 // @grant        none
 // @license      MIT License
 // ==/UserScript==
@@ -14,10 +16,46 @@
 (function run() {
     'use strict';
 
+    const isAndroid = navigator.userAgent.toLowerCase('android') !== -1;
+    const isEmulator = isAndroid && !navigator.userAgentData.mobile;
+    const mobileOrEmulator = isEmulator || navigator.userAgentData.mobile;
+
+    const isDebug = isEmulator;
+    const logDebug = param => {
+        console.log('[DEBUG]', param);
+    };
+
     const element = document.createElement('style');
     element.type = 'text/css';
     document.head.appendChild(element);
     const styleSheet = element.sheet;
+
+    const ycombinatorDomain = window.location.hostname.indexOf('.ycombinator.com') !== -1;
+    const hckrnewsDomain = !ycombinatorDomain && window.location.hostname.indexOf('hckrnews.com') !== -1;
+    const hackerwebDomain = !ycombinatorDomain && window.location.hostname.indexOf('hackerweb.app') !== -1;
+
+    const articlePage = (ycombinatorDomain && window.location.search.indexOf('id=') !== -1) || (hackerwebDomain && window.location.href.indexOf('/#/item/') !== -1);
+
+    logDebug({
+        platform: {
+            isAndroid,
+            isEmulator,
+            mobileOrEmulator
+        },
+        isDebug,
+        articlePage,
+        domain: {
+            ycombinatorDomain,
+            hckrnewsDomain,
+            hackerwebDomain
+        }
+    });
+
+    const addRules = (rules) => {
+        rules.forEach(cssRule => {
+            styleSheet.insertRule(cssRule, styleSheet.cssRules.length);
+        });
+    };
 
     const cssRules = [
         // defaults
@@ -32,7 +70,7 @@
     ];
 
     // if mobile or emulator
-    if (navigator.userAgent.toLowerCase('android') !== -1 || navigator.userAgentData.mobile) {
+    if (mobileOrEmulator) {
         cssRules.push(...[
             // styles
             '.pagetop { font-size: 16pt; }',
@@ -47,11 +85,22 @@
         ]);
     }
 
-    cssRules.forEach(cssRule => {
-        styleSheet.insertRule(cssRule, styleSheet.cssRules.length);
-    });
+    if (hckrnewsDomain) {
+        cssRules.push(...[
+            'body, a:hover, a, .points, .comments { color: #eee; }',
+            'body .entries a:hover, body .nav > li > a:hover { background-color: #333; }',
+            '.form-actions { background-color: #222 }',
+        ]);
+    } else if (hackerwebDomain && articlePage) {
+        cssRules.push(...[
+            '.view > header, body header, body .grouped-tableview, .post-content, body .view.view.view section { background-color: #333; }',
+            'body .view .post-content pre, body .view section.comments pre { background-color: #222 }',
+            'body .view .post-content header h1, body p, body pre, .view section.comments button.comments-toggle, body li { color: #eee; }',
+            '.view section.comments button.comments-toggle, .view section.comments button.comments-toggle:hover { background-color: #555 }',
+        ]);
+    }
 
-    const articlePage = window.location.search.indexOf('id=') !== -1;
+    addRules(cssRules);
 
     if (articlePage) {
         // collapse non top comments
@@ -60,7 +109,9 @@
         });
 
         // remove root/next/prev links
-        document.querySelectorAll('.navs .clicky:not(.togg)').forEach(element => element.style.display = 'none');
+        addRules([
+            '.navs .clicky:not(.togg) { display: none; }',
+        ]);
     } else {
         const storage = window.localStorage;
         if (storage && typeof storage.getItem === 'function') {
@@ -106,15 +157,18 @@
 
             let cache = readFromCache();
 
+            const entryRowSelector = ycombinatorDomain ? 'tr.athing' : '.entry.row';
+            const linkSelector = ycombinatorDomain ? 'tr.visited + tr' : '.entry.row .link.story';
+
             // mark visited
             const markVisited = () => {
-                document.querySelectorAll('tr.athing').forEach(element => {
+                document.querySelectorAll(entryRowSelector).forEach(element => {
                     if (cache.indexOf(element.id) !== -1) {
                         element.classList.add('visited');
                     }
                 });
 
-                document.querySelectorAll('tr.visited + tr').forEach(element => {
+                document.querySelectorAll(linkSelector).forEach(element => {
                     element.classList.add('visited');
                 });
             };
@@ -122,7 +176,7 @@
 
             // listen to scroll and add to cache
             const markVisibleAsVisited = () => {
-                const elements = document.querySelectorAll('tr.athing:not(.visited)');
+                const elements = document.querySelectorAll(`${entryRowSelector}:not(.visited)`);
 
                 let started = false;
                 const ids = [];
